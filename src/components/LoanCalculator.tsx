@@ -3,18 +3,16 @@
 import { useState } from "react";
 
 const CURRENCIES = {
+  NGN: { symbol: "₦", rate: 1600, locale: "en-NG" },
   USD: { symbol: "$", rate: 1, locale: "en-US" },
-  EUR: { symbol: "€", rate: 0.92, locale: "de-DE" },
-  GBP: { symbol: "£", rate: 0.79, locale: "en-GB" },
-  UGX: { symbol: "UGX", rate: 3750, locale: "en-UG" },
 };
 
 type CurrencyCode = keyof typeof CURRENCIES;
 
 export default function LoanCalculator() {
-  const [amountUSD, setAmountUSD] = useState(10000);
+  const [amountUSD, setAmountUSD] = useState(1000);
   const [tenureMonths, setTenureMonths] = useState(24);
-  const [currency, setCurrency] = useState<CurrencyCode>("USD");
+  const [currency, setCurrency] = useState<CurrencyCode>("NGN");
   const interestRate = 12; // 12% annual interest rate
 
   const currentCurrency = CURRENCIES[currency];
