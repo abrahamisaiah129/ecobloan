@@ -62,14 +62,14 @@ export default function Footer() {
             <h4 className="font-bold text-lg mb-6">Contact Us</h4>
             <ul className="space-y-3 text-gray-300 text-sm">
               <li>Call: +256 800 123 456</li>
-              <li>Email: assist@faivelon.com</li>
-              <li>Address: Faivelon Tower, Kampala, Uganda</li>
+              <li>Email: assist@Ecobloan.com</li>
+              <li>Address: Ecobloan Tower, Kampala, Uganda</li>
             </ul>
           </div>
         </div>
 
         <div className="border-t border-[#003366] pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-400">
-          <p>&copy; {new Date().getFullYear()} Faivelon. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Ecobloan. All rights reserved.</p>
           <p className="mt-2 md:mt-0">Designed for demonstration purposes.</p>
         </div>
       </div>

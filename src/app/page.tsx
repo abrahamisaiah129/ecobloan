@@ -56,7 +56,7 @@ export default function Page() {
             <div className="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
               <div>
                 <h2 className="text-3xl font-extrabold text-gray-900 mb-6">
-                  Why Choose <span className="text-[#003366]">Faivelon</span>?
+                  Why Choose <span className="text-[#003366]">Ecobloan</span>?
                 </h2>
                 <p className="text-lg text-gray-600 mb-8">
                   We believe in banking that works for you. Our products are designed with transparency, speed, and your financial well-being in mind.

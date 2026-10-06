@@ -46,7 +46,7 @@ export default function LoginPage() {
                     name="email"
                     type="email"
                     required
-                    defaultValue="demo@faivelon.com"
+                    defaultValue="demo@Ecobloan.com"
                     className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#00a1e0] focus:border-[#00a1e0] sm:text-sm"
                   />
                 </div>

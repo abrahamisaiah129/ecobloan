@@ -97,7 +97,7 @@ export default function RepayPage() {
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between border-b border-gray-200 pb-2">
                       <span className="text-gray-500">Bank Name</span>
-                      <span className="font-semibold text-gray-800">Faivelon Partner Bank</span>
+                      <span className="font-semibold text-gray-800">Ecobloan Partner Bank</span>
                     </div>
                     <div className="flex justify-between border-b border-gray-200 pb-2">
                       <span className="text-gray-500">Account Number</span>
@@ -105,7 +105,7 @@ export default function RepayPage() {
                     </div>
                     <div className="flex justify-between pb-2">
                       <span className="text-gray-500">Account Name</span>
-                      <span className="font-semibold text-gray-800">Faivelon Loan Repayments</span>
+                      <span className="font-semibold text-gray-800">Ecobloan Loan Repayments</span>
                     </div>
                   </div>
                 </section>

@@ -231,7 +231,7 @@ export default function ApplyPage() {
                   <div className="ml-3 text-sm text-gray-600">
                     <p className="font-semibold text-gray-800 mb-1">Declaration and Consent</p>
                     <p>
-                      I hereby declare that the information provided in this application is true and correct. I authorize Faivelon to verify this information through Credit Reference Bureaus and my employer. I understand that false information may lead to the rejection of my application.
+                      I hereby declare that the information provided in this application is true and correct. I authorize Ecobloan to verify this information through Credit Reference Bureaus and my employer. I understand that false information may lead to the rejection of my application.
                     </p>
                   </div>
                 </div>

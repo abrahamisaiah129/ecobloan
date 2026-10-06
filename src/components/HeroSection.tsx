@@ -11,7 +11,7 @@ export default function HeroSection() {
             <span className="block text-[#F2A900]">designed for you.</span>
           </h1>
           <p className="mt-6 text-base text-gray-200 sm:text-lg md:text-xl">
-            Achieve your dreams today with Faivelon's flexible and affordable loan products. Whether it's a new car, home renovation, or unexpected expenses, we've got you covered.
+            Achieve your dreams today with Ecobloan's flexible and affordable loan products. Whether it's a new car, home renovation, or unexpected expenses, we've got you covered.
           </p>
           <div className="mt-10 sm:flex sm:justify-center lg:justify-start gap-4 flex-col sm:flex-row">
             <div className="rounded-md shadow">
