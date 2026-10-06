@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Banknote } from "lucide-react"; // Adding the requested money icon
 
 const FacebookIcon = ({ className }: { className?: string }) => (
   <svg className={className} fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clipRule="evenodd" /></svg>
@@ -22,53 +23,59 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <Link href="/" className="flex items-center gap-2 mb-6">
-              <img src="https://via.placeholder.com/150x40?text=Ecobloan+Logo" alt="Ecobloan Logo" className="h-10 object-contain" />
+              <img src="/logo.png" alt="Ecobloan Logo" className="h-10 object-contain bg-white rounded p-1" />
             </Link>
             <p className="text-gray-300 text-sm mb-6 leading-relaxed">
-              Empowering you to achieve your financial goals with flexible, accessible, and transparent loan products.
+              Empowering you to achieve your financial goals with flexible, accessible, and transparent loan products across Africa.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-300 hover:text-[#F2A900] transition-colors"><FacebookIcon className="w-5 h-5" /></a>
-              <a href="#" className="text-gray-300 hover:text-[#F2A900] transition-colors"><TwitterIcon className="w-5 h-5" /></a>
-              <a href="#" className="text-gray-300 hover:text-[#F2A900] transition-colors"><LinkedinIcon className="w-5 h-5" /></a>
-              <a href="#" className="text-gray-300 hover:text-[#F2A900] transition-colors"><InstagramIcon className="w-5 h-5" /></a>
+              <a href="#" className="text-gray-400 hover:text-[#F2A900] transition-colors"><FacebookIcon className="w-5 h-5" /></a>
+              <a href="#" className="text-gray-400 hover:text-[#F2A900] transition-colors"><TwitterIcon className="w-5 h-5" /></a>
+              <a href="#" className="text-gray-400 hover:text-[#F2A900] transition-colors"><LinkedinIcon className="w-5 h-5" /></a>
+              <a href="#" className="text-gray-400 hover:text-[#F2A900] transition-colors"><InstagramIcon className="w-5 h-5" /></a>
             </div>
           </div>
 
-          {/* Links */}
+          {/* About Us */}
           <div>
-            <h4 className="font-bold text-lg mb-6">Products</h4>
+            <h4 className="font-bold text-lg mb-6 flex items-center gap-2">
+              <Banknote className="w-5 h-5 text-[#F2A900]" /> About Us
+            </h4>
             <ul className="space-y-3 text-gray-300 text-sm">
-              <li><a href="#" className="hover:text-[#F2A900] transition-colors">Personal Loan</a></li>
-              <li><a href="#" className="hover:text-[#F2A900] transition-colors">Salary Advance</a></li>
-              <li><a href="#" className="hover:text-[#F2A900] transition-colors">Auto Loan</a></li>
-              <li><a href="#" className="hover:text-[#F2A900] transition-colors">Mortgage Facility</a></li>
+              <li><a href="#" className="hover:text-[#F2A900] transition-colors">Corporate Profile</a></li>
+              <li><a href="#" className="hover:text-[#F2A900] transition-colors">Corporate Governance</a></li>
+              <li><a href="#" className="hover:text-[#F2A900] transition-colors">Investor Relations</a></li>
+              <li><a href="#" className="hover:text-[#F2A900] transition-colors">Sustainability</a></li>
+              <li><a href="#" className="hover:text-[#F2A900] transition-colors">Careers</a></li>
             </ul>
           </div>
 
-          {/* Company */}
+          {/* Quick Links */}
           <div>
-            <h4 className="font-bold text-lg mb-6">Company</h4>
+            <h4 className="font-bold text-lg mb-6">Quick Links</h4>
             <ul className="space-y-3 text-gray-300 text-sm">
-              <li><a href="#" className="hover:text-[#F2A900] transition-colors">About Us</a></li>
-              <li><a href="#" className="hover:text-[#F2A900] transition-colors">Careers</a></li>
+              <li><a href="#" className="hover:text-[#F2A900] transition-colors">Media Centre</a></li>
+              <li><a href="#" className="hover:text-[#F2A900] transition-colors">Whistle Blowing</a></li>
               <li><a href="#" className="hover:text-[#F2A900] transition-colors">Privacy Policy</a></li>
               <li><a href="#" className="hover:text-[#F2A900] transition-colors">Terms of Service</a></li>
+              <li><a href="#" className="hover:text-[#F2A900] transition-colors">Cookie Policy</a></li>
             </ul>
           </div>
 
           {/* Contact */}
           <div>
-            <h4 className="font-bold text-lg mb-6">Contact Us</h4>
+            <h4 className="font-bold text-lg mb-6">Help & Support</h4>
             <ul className="space-y-3 text-gray-300 text-sm">
-              <li>Call: +256 800 123 456</li>
-              <li>Email: assist@Ecobloan.com</li>
-              <li>Address: Ecobloan Tower, Kampala, Uganda</li>
+              <li><a href="#" className="hover:text-[#F2A900] transition-colors">Contact Us</a></li>
+              <li><a href="#" className="hover:text-[#F2A900] transition-colors">Branch & ATM Locator</a></li>
+              <li><a href="#" className="hover:text-[#F2A900] transition-colors">FAQs</a></li>
+              <li className="pt-2 text-[#F2A900] font-semibold">Call: +256 800 123 456</li>
+              <li className="text-[#F2A900] font-semibold">Email: assist@ecobloan.com</li>
             </ul>
           </div>
         </div>
 
-        <div className="border-t border-[#003366] pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-400">
+        <div className="border-t border-[#001122] pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-400">
           <p>&copy; {new Date().getFullYear()} Ecobloan. All rights reserved.</p>
           <p className="mt-2 md:mt-0">Designed for demonstration purposes.</p>
         </div>

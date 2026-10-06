@@ -32,7 +32,7 @@ export default function SignupPage() {
           
           <div>
             <div className="flex items-center gap-2 mb-6">
-              <img src="https://via.placeholder.com/150x40?text=Ecobloan+Logo" alt="Ecobloan Logo" className="h-10 object-contain" />
+              <img src="/logo.png" alt="Ecobloan Logo" className="h-10 object-contain" />
             </div>
             <h2 className="text-3xl font-extrabold text-gray-900">Create your account</h2>
             <p className="mt-2 text-sm text-gray-600">

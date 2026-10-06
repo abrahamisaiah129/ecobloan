@@ -14,7 +14,7 @@ export default function Header() {
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
             <Link href="/" className="flex items-center gap-2">
-              <img src="https://via.placeholder.com/150x40?text=Ecobloan+Logo" alt="Ecobloan Logo" className="h-10 object-contain" />
+              <img src="/logo.png" alt="Ecobloan Logo" className="h-10 object-contain" />
             </Link>
           </div>
 
