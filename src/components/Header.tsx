@@ -20,14 +20,20 @@ export default function Header() {
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex space-x-8">
-            <Link href="#products" className="text-gray-700 hover:text-[#F2A900] font-medium transition-colors">
-              Loan Products
+            <Link href="#" className="text-[#003366] hover:text-[#F2A900] font-bold transition-colors">
+              Personal
             </Link>
-            <Link href="#calculator" className="text-gray-700 hover:text-[#F2A900] font-medium transition-colors">
+            <Link href="#" className="text-gray-600 hover:text-[#F2A900] font-medium transition-colors">
+              Commercial
+            </Link>
+            <Link href="#" className="text-gray-600 hover:text-[#F2A900] font-medium transition-colors">
+              Corporate
+            </Link>
+            <Link href="#products" className="text-gray-600 hover:text-[#F2A900] font-medium transition-colors">
+              Loans
+            </Link>
+            <Link href="#calculator" className="text-gray-600 hover:text-[#F2A900] font-medium transition-colors">
               Calculator
-            </Link>
-            <Link href="#benefits" className="text-gray-700 hover:text-[#F2A900] font-medium transition-colors">
-              Benefits
             </Link>
           </nav>
 
@@ -57,14 +63,20 @@ export default function Header() {
       {isMenuOpen && (
         <div className="md:hidden bg-white border-t border-gray-100">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <Link href="#" className="block px-3 py-2 text-base font-bold text-[#003366] hover:text-[#F2A900] hover:bg-gray-50 rounded-md">
+              Personal
+            </Link>
+            <Link href="#" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-[#F2A900] hover:bg-gray-50 rounded-md">
+              Commercial
+            </Link>
+            <Link href="#" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-[#F2A900] hover:bg-gray-50 rounded-md">
+              Corporate
+            </Link>
             <Link href="#products" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-[#F2A900] hover:bg-gray-50 rounded-md">
-              Loan Products
+              Loans
             </Link>
             <Link href="#calculator" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-[#F2A900] hover:bg-gray-50 rounded-md">
               Calculator
-            </Link>
-            <Link href="#benefits" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-[#F2A900] hover:bg-gray-50 rounded-md">
-              Benefits
             </Link>
             <div className="pt-4 flex flex-col gap-2 px-3">
               <Link href="/login" className="w-full text-center border border-[#003366] text-[#003366] px-4 py-2 rounded-md font-semibold hover:bg-yellow-50 transition-colors">
