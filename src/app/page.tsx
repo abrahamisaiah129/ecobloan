@@ -56,7 +56,7 @@ export default function Page() {
             <div className="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
               <div>
                 <h2 className="text-3xl font-extrabold text-gray-900 mb-6">
-                  Why Choose <span className="text-[#004b87]">Faivelon</span>?
+                  Why Choose <span className="text-[#003366]">Faivelon</span>?
                 </h2>
                 <p className="text-lg text-gray-600 mb-8">
                   We believe in banking that works for you. Our products are designed with transparency, speed, and your financial well-being in mind.
@@ -69,17 +69,22 @@ export default function Page() {
                     "Dedicated Support: 24/7 customer service via phone or chat."
                   ].map((benefit, idx) => (
                     <li key={idx} className="flex">
-                      <CheckCircle2 className="flex-shrink-0 w-6 h-6 text-[#00a1e0] mr-4" />
+                      <CheckCircle2 className="flex-shrink-0 w-6 h-6 text-[#F2A900] mr-4" />
                       <span className="text-lg text-gray-700">{benefit}</span>
                     </li>
                   ))}
                 </ul>
               </div>
-              <div className="mt-12 lg:mt-0 relative rounded-2xl overflow-hidden shadow-2xl">
-                <div className="bg-[#004b87] aspect-w-4 aspect-h-3 h-[400px] flex items-center justify-center">
+              <div className="mt-12 lg:mt-0 relative rounded-2xl overflow-hidden shadow-2xl h-[400px]">
+                <img 
+                  src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?auto=format&fit=crop&q=80&w=800"
+                  alt="Happy family in front of new home"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-[#003366]/70 flex items-center justify-center">
                   <div className="text-center p-8">
-                    <h3 className="text-white text-2xl font-bold mb-4">Empowering your future</h3>
-                    <p className="text-blue-100">Join thousands of customers who have achieved their goals with our reliable financial support.</p>
+                    <h3 className="text-white text-3xl font-bold mb-4 drop-shadow-md">Empowering your future</h3>
+                    <p className="text-yellow-50 font-medium text-lg drop-shadow">Join thousands of customers who have achieved their goals with our reliable financial support.</p>
                   </div>
                 </div>
               </div>
