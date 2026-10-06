@@ -22,12 +22,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <Link href="/" className="flex items-center gap-2 mb-6">
-              <div className="w-10 h-10 bg-[#F2A900] rounded-lg flex items-center justify-center text-[#002244] font-bold text-2xl">
-                F
-              </div>
-              <span className="font-extrabold text-2xl text-white tracking-tight">
-                Faivelon
-              </span>
+              <img src="https://via.placeholder.com/150x40?text=Ecobloan+Logo" alt="Ecobloan Logo" className="h-10 object-contain" />
             </Link>
             <p className="text-gray-300 text-sm mb-6 leading-relaxed">
               Empowering you to achieve your financial goals with flexible, accessible, and transparent loan products.

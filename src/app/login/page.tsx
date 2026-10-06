@@ -23,12 +23,7 @@ export default function LoginPage() {
           
           <div>
             <div className="flex items-center gap-2 mb-6">
-              <div className="w-10 h-10 bg-[#004b87] rounded-lg flex items-center justify-center text-white font-bold text-2xl">
-                F
-              </div>
-              <span className="font-extrabold text-2xl text-[#004b87] tracking-tight">
-                Faivelon
-              </span>
+              <img src="https://via.placeholder.com/150x40?text=Ecobloan+Logo" alt="Ecobloan Logo" className="h-10 object-contain" />
             </div>
             <h2 className="text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
             <p className="mt-2 text-sm text-gray-600">

@@ -11,8 +11,7 @@ export default function DashboardPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <Link href="/dashboard" className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-[#004b87] rounded-md flex items-center justify-center text-white font-bold text-xl">F</div>
-              <span className="font-bold text-xl text-[#004b87] tracking-tight">Faivelon</span>
+              <img src="https://via.placeholder.com/150x40?text=Ecobloan+Logo" alt="Ecobloan Logo" className="h-8 object-contain" />
             </Link>
             
             <div className="flex items-center space-x-6">

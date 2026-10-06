@@ -14,12 +14,7 @@ export default function Header() {
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
             <Link href="/" className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-[#003366] rounded-lg flex items-center justify-center text-[#F2A900] font-bold text-2xl">
-                F
-              </div>
-              <span className="font-extrabold text-2xl text-[#003366] tracking-tight">
-                Faivelon
-              </span>
+              <img src="https://via.placeholder.com/150x40?text=Ecobloan+Logo" alt="Ecobloan Logo" className="h-10 object-contain" />
             </Link>
           </div>
 
