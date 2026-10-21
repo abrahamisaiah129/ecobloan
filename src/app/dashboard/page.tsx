@@ -68,6 +68,25 @@ export default async function DashboardPage() {
           </section>
 
           <aside className="space-y-8">
+            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+              <div className="flex items-center gap-4">
+                <img
+                  src="/profile/bonga-willy.jpg"
+                  alt={`${profile.name} profile`}
+                  className="h-16 w-16 rounded-full object-cover ring-2 ring-blue-100"
+                />
+                <div className="min-w-0">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">Account holder</p>
+                  <h2 className="font-bold text-gray-900 truncate">{profile.name}</h2>
+                  <p className="text-sm text-gray-600 truncate">{profile.company}</p>
+                </div>
+              </div>
+              <div className="mt-4 border-t border-gray-100 pt-4">
+                <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">Verified contact</p>
+                <p className="mt-1 text-sm text-gray-700">{profile.phone}</p>
+              </div>
+            </div>
+
             <div className="bg-[#004b87] rounded-xl p-6 text-white shadow-md relative overflow-hidden">
               <div className="relative z-10">
                 <h3 className="font-bold text-lg mb-2">Need Help?</h3>

@@ -10,6 +10,7 @@ export type CustomerProfile = {
   name: string;
   company: string;
   business: string;
+  phone: string;
   loanAmount: number;
   loanStatus: string;
   bank: string;
@@ -70,6 +71,7 @@ export function getCustomerProfile(): CustomerProfile {
     name: getRequiredEnv("ECOBLOAN_CUSTOMER_NAME"),
     company: getRequiredEnv("ECOBLOAN_CUSTOMER_COMPANY"),
     business: getRequiredEnv("ECOBLOAN_CUSTOMER_BUSINESS"),
+    phone: getRequiredEnv("ECOBLOAN_CUSTOMER_PHONE"),
     loanAmount: Number(getRequiredEnv("ECOBLOAN_LOAN_AMOUNT")),
     loanStatus: getRequiredEnv("ECOBLOAN_LOAN_STATUS"),
     bank: getRequiredEnv("ECOBLOAN_BANK_NAME"),

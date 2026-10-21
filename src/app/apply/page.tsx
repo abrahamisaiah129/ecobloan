@@ -130,7 +130,7 @@ export default function ApplyPage() {
                 <div className="grid grid-cols-1 gap-y-6 gap-x-6 sm:grid-cols-2">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Mobile Number</label>
-                    <input type="tel" required placeholder="+256" className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent" />
+                    <input type="tel" required placeholder="Enter your mobile number" className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent" />
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Email Address</label>
