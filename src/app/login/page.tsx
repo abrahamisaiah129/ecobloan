@@ -1,14 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState } from "react";
-import { ArrowLeft } from "lucide-react";
+import { useActionState, useState } from "react";
+import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { login, type LoginState } from "./actions";
 
 const initialState: LoginState = {};
 
 export default function LoginPage() {
   const [state, formAction, pending] = useActionState(login, initialState);
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <div className="min-h-screen flex bg-gray-50">
@@ -39,7 +40,7 @@ export default function LoginPage() {
                 type="text"
                 autoComplete="username"
                 required
-                className="mt-1 appearance-none block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#00a1e0] focus:border-[#00a1e0] sm:text-sm"
+                className="mt-1 appearance-none block w-full px-3 py-3 bg-white text-gray-900 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-[#00a1e0] focus:border-[#00a1e0] sm:text-sm"
               />
             </div>
 
@@ -47,14 +48,24 @@ export default function LoginPage() {
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                 Password
               </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                className="mt-1 appearance-none block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#00a1e0] focus:border-[#00a1e0] sm:text-sm"
-              />
+              <div className="relative mt-1">
+                <input
+                  id="password"
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  autoComplete="current-password"
+                  required
+                  className="block w-full px-3 py-3 pr-11 bg-white text-gray-900 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-[#00a1e0] focus:border-[#00a1e0] sm:text-sm"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((visible) => !visible)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  className="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500 hover:text-[#004b87] focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#00a1e0] rounded-r-md"
+                >
+                  {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                </button>
+              </div>
             </div>
 
             {state.error && (
