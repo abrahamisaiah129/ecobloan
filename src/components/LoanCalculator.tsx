@@ -10,7 +10,7 @@ const CURRENCIES = {
 type CurrencyCode = keyof typeof CURRENCIES;
 
 export default function LoanCalculator() {
-  const [amountUSD, setAmountUSD] = useState(1000);
+  const [amountUSD, setAmountUSD] = useState(0);
   const [tenureMonths, setTenureMonths] = useState(24);
   const [currency, setCurrency] = useState<CurrencyCode>("NGN");
   const interestRate = 12; // 12% annual interest rate
@@ -31,6 +31,12 @@ export default function LoanCalculator() {
     const emi = (p * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
     return Math.round(emi);
   };
+
+  const monthlyRepayment = calculateEMI();
+  const totalRepayment = monthlyRepayment * tenureMonths;
+  const totalInterest = Math.max(0, totalRepayment - displayAmount);
+  const maximumDisplayAmount = 100000 * currentCurrency.rate;
+  const sliderStepUSD = currency === "NGN" ? 100 : 100;
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat(currentCurrency.locale, {
@@ -73,16 +79,16 @@ export default function LoanCalculator() {
           </div>
           <input
             type="range"
-            min="1000"
+            min="0"
             max="100000"
-            step="1000"
+            step={sliderStepUSD}
             value={amountUSD}
             onChange={(e) => setAmountUSD(Number(e.target.value))}
             className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-[#00a1e0]"
           />
           <div className="flex justify-between text-xs text-gray-500 mt-2 font-medium">
-            <span>{formatCurrency(1000 * currentCurrency.rate)}</span>
-            <span>{formatCurrency(100000 * currentCurrency.rate)}</span>
+            <span>{formatCurrency(0)}</span>
+            <span>{formatCurrency(maximumDisplayAmount)}</span>
           </div>
         </div>
 
@@ -111,13 +117,22 @@ export default function LoanCalculator() {
         <div className="bg-blue-50/50 border border-blue-100 p-6 rounded-xl mb-6 flex flex-col sm:flex-row items-center justify-between">
           <div>
             <p className="text-sm font-semibold text-gray-600 mb-1">Estimated Monthly Repayment</p>
-            <p className="text-4xl font-extrabold text-[#00a1e0]">{formatCurrency(calculateEMI())}</p>
+            <p className="text-4xl font-extrabold text-[#00a1e0]">{formatCurrency(monthlyRepayment)}</p>
           </div>
-          <div className="text-right mt-4 sm:mt-0 hidden sm:block">
-            <p className="text-sm text-gray-500 mb-1">Interest Rate</p>
-            <p className="text-lg font-bold text-[#004b87]">{interestRate}% p.a.</p>
+          <div className="grid grid-cols-2 gap-6 text-right mt-4 sm:mt-0">
+            <div>
+              <p className="text-sm text-gray-500 mb-1">Estimated Interest</p>
+              <p className="text-lg font-bold text-[#004b87]">{formatCurrency(totalInterest)}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500 mb-1">Total Repayment</p>
+              <p className="text-lg font-bold text-[#004b87]">{formatCurrency(totalRepayment)}</p>
+            </div>
           </div>
         </div>
+        <p className="text-sm text-gray-500 text-center mb-6">
+          Fixed estimated rate: <span className="font-semibold text-[#004b87]">{interestRate}% p.a.</span>
+        </p>
 
         <a href="/apply" className="block text-center w-full bg-[#004b87] text-white py-4 rounded-xl font-bold text-lg hover:bg-[#003865] hover:shadow-lg transition-all duration-200 shadow-md">
           Apply for this Loan
