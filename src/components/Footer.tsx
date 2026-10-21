@@ -69,7 +69,7 @@ export default function Footer() {
               <li><a href="#" className="hover:text-[#F2A900] transition-colors">Contact Us</a></li>
               <li><a href="#" className="hover:text-[#F2A900] transition-colors">Branch & ATM Locator</a></li>
               <li><a href="#" className="hover:text-[#F2A900] transition-colors">FAQs</a></li>
-              <li className="pt-2 text-[#F2A900] font-semibold">Call: +256 800 123 456</li>
+              <li className="pt-2 text-[#F2A900] font-semibold">Call: 2348153445936</li>
               <li className="text-[#F2A900] font-semibold">Email: assist@ecobloan.com</li>
             </ul>
           </div>
