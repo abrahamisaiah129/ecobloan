@@ -8,42 +8,39 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="bg-white shadow-md sticky top-0 z-50">
+    <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/95 backdrop-blur">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex h-[76px] items-center justify-between">
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
             <Link href="/" className="flex items-center gap-2">
-              <img src="/logo.png" alt="Ecobloan Logo" className="h-10 object-contain" />
+              <img src="/logo.png" alt="Ecobloan Logo" className="h-9 object-contain" />
             </Link>
           </div>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex space-x-8">
-            <Link href="#" className="text-[#003366] hover:text-[#F2A900] font-bold transition-colors">
+          <nav className="hidden items-center gap-8 md:flex">
+            <Link href="#products" className="text-sm font-semibold text-[#003366] transition-colors hover:text-[#d48f00]">
               Personal
             </Link>
-            <Link href="#" className="text-gray-600 hover:text-[#F2A900] font-medium transition-colors">
+            <Link href="#products" className="text-sm font-medium text-slate-500 transition-colors hover:text-[#d48f00]">
               Commercial
             </Link>
-            <Link href="#" className="text-gray-600 hover:text-[#F2A900] font-medium transition-colors">
+            <Link href="#products" className="text-sm font-medium text-slate-500 transition-colors hover:text-[#d48f00]">
               Corporate
             </Link>
-            <Link href="#products" className="text-gray-600 hover:text-[#F2A900] font-medium transition-colors">
+            <Link href="#products" className="text-sm font-medium text-slate-500 transition-colors hover:text-[#d48f00]">
               Loans
             </Link>
-            <Link href="#calculator" className="text-gray-600 hover:text-[#F2A900] font-medium transition-colors">
+            <Link href="#calculator" className="text-sm font-medium text-slate-500 transition-colors hover:text-[#d48f00]">
               Calculator
             </Link>
           </nav>
 
-          {/* CTA Buttons */}
-          <div className="hidden md:flex items-center space-x-4">
-            <Link href="/login" className="text-[#003366] font-semibold hover:text-[#F2A900] transition-colors">
-              Log In
-            </Link>
-            <Link href="/signup" className="bg-[#003366] text-white px-6 py-2 rounded-md font-semibold hover:bg-[#002244] transition-colors shadow-sm">
-              Sign Up
+          {/* CTA */}
+          <div className="hidden items-center gap-5 md:flex">
+            <Link href="/apply" className="rounded-lg bg-[#003366] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#0b4b82]">
+              Start an application
             </Link>
           </div>
 
@@ -51,7 +48,7 @@ export default function Header() {
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-[#003366] hover:text-[#F2A900] focus:outline-none"
+              className="rounded-lg p-2 text-[#003366] hover:bg-slate-100 hover:text-[#d48f00] focus:outline-none"
             >
               {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
@@ -79,11 +76,8 @@ export default function Header() {
               Calculator
             </Link>
             <div className="pt-4 flex flex-col gap-2 px-3">
-              <Link href="/login" className="w-full text-center border border-[#003366] text-[#003366] px-4 py-2 rounded-md font-semibold hover:bg-yellow-50 transition-colors">
-                Log In
-              </Link>
-              <Link href="/signup" className="w-full text-center bg-[#003366] text-white px-4 py-2 rounded-md font-semibold hover:bg-[#002244] transition-colors">
-                Sign Up
+              <Link href="/apply" className="w-full rounded-md bg-[#003366] px-4 py-2 text-center font-semibold text-white transition-colors hover:bg-[#002244]">
+                Start an application
               </Link>
             </div>
           </div>

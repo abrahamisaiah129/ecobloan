@@ -2,22 +2,99 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { ArrowLeft, CheckCircle2, UploadCloud } from "lucide-react";
+
+const LOCATIONS = {
+  Nigeria: {
+    "Lagos State": ["Victoria Island Branch", "Ikeja Branch", "Lekki Branch"],
+    "Abuja FCT": ["Central Business District Branch", "Wuse Branch"],
+    "Rivers State": ["Port Harcourt Branch"],
+  },
+  Uganda: {
+    "Central Region": ["Kampala Road Branch", "Entebbe Branch"],
+    "Eastern Region": ["Jinja Branch"],
+    "Northern Region": ["Gulu Branch"],
+  },
+  Kenya: {
+    Nairobi: ["Westlands Branch", "Kenyatta Avenue Branch"],
+    Mombasa: ["Mombasa CBD Branch"],
+    Kisumu: ["Kisumu Branch"],
+  },
+  Ghana: {
+    "Greater Accra": ["Accra Central Branch", "Osu Branch"],
+    Ashanti: ["Kumasi Branch"],
+    "Western Region": ["Takoradi Branch"],
+  },
+  "South Africa": {
+    Gauteng: ["Johannesburg Branch", "Pretoria Branch"],
+    "Western Cape": ["Cape Town Branch"],
+    "KwaZulu-Natal": ["Durban Branch"],
+  },
+  "United States": {
+    "New York": ["Manhattan Branch", "Brooklyn Branch"],
+    California: ["Los Angeles Branch", "San Francisco Branch"],
+    Texas: ["Houston Branch", "Dallas Branch"],
+  },
+  "United Kingdom": {
+    England: ["London Branch", "Manchester Branch"],
+    Scotland: ["Edinburgh Branch"],
+    Wales: ["Cardiff Branch"],
+  },
+  Canada: {
+    Ontario: ["Toronto Branch", "Ottawa Branch"],
+    Quebec: ["Montreal Branch"],
+    Alberta: ["Calgary Branch"],
+  },
+  "United Arab Emirates": {
+    Dubai: ["Downtown Dubai Branch", "Deira Branch"],
+    "Abu Dhabi": ["Abu Dhabi Branch"],
+    Sharjah: ["Sharjah Branch"],
+  },
+} as const;
+
+type Country = keyof typeof LOCATIONS;
 
 export default function ApplyPage() {
   const router = useRouter();
+  const [country, setCountry] = useState<Country | "">("");
+  const [region, setRegion] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const regions = country ? Object.keys(LOCATIONS[country]) : [];
+  const branches = country && region
+    ? LOCATIONS[country][region as keyof (typeof LOCATIONS)[Country]]
+    : [];
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Mock application submission -> go to dashboard
-    router.push("/dashboard");
+    setIsSubmitting(true);
+    setSubmitError("");
+
+    try {
+      const response = await fetch("/api/apply", {
+        method: "POST",
+        body: new FormData(e.currentTarget),
+      });
+
+      if (!response.ok) {
+        const result = await response.json().catch(() => null);
+        throw new Error(result?.error ?? "Application submission failed");
+      }
+
+      router.push("/dashboard");
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : "Application submission failed");
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
-        <Link href="/dashboard" className="flex items-center text-gray-500 hover:text-[#004b87] mb-8 font-medium w-fit">
-          <ArrowLeft className="w-4 h-4 mr-2" /> Back to Dashboard
+        <Link href="/" className="flex items-center text-gray-500 hover:text-[#004b87] mb-8 font-medium w-fit">
+          <ArrowLeft className="w-4 h-4 mr-2" /> Back to Home
         </Link>
         
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
@@ -35,7 +112,7 @@ export default function ApplyPage() {
                 <div className="grid grid-cols-1 gap-y-6 gap-x-6 sm:grid-cols-2">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Type of Facility</label>
-                    <select required className="block w-full px-4 py-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent rounded-lg bg-gray-50">
+                    <select name="facility" required className="block w-full px-4 py-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent rounded-lg bg-gray-50">
                       <option value="">Select Facility</option>
                       <option>Personal Loan</option>
                       <option>Salary Advance</option>
@@ -44,22 +121,63 @@ export default function ApplyPage() {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">Preferred Branch</label>
-                    <select required className="block w-full px-4 py-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent rounded-lg bg-gray-50">
+                    <label htmlFor="country" className="mb-1 block text-sm font-semibold text-gray-700">Country</label>
+                    <select
+                      id="country"
+                      name="country"
+                      required
+                      value={country}
+                      onChange={(event) => {
+                        setCountry(event.target.value as Country);
+                        setRegion("");
+                      }}
+                      className="block w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-[#00a1e0]"
+                    >
+                      <option value="">Select Country</option>
+                      {Object.keys(LOCATIONS).map((locationCountry) => (
+                        <option key={locationCountry}>{locationCountry}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="region" className="mb-1 block text-sm font-semibold text-gray-700">State / Province / Region</label>
+                    <select
+                      id="region"
+                      name="region"
+                      required
+                      value={region}
+                      disabled={!country}
+                      onChange={(event) => setRegion(event.target.value)}
+                      className="block w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-[#00a1e0] disabled:cursor-not-allowed disabled:opacity-60"
+                    >
+                      <option value="">Select State or Region</option>
+                      {regions.map((locationRegion) => (
+                        <option key={locationRegion}>{locationRegion}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="branch" className="mb-1 block text-sm font-semibold text-gray-700">Preferred Branch</label>
+                    <select
+                      id="branch"
+                      name="branch"
+                      required
+                      disabled={!region}
+                      className="block w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-[#00a1e0] disabled:cursor-not-allowed disabled:opacity-60"
+                    >
                       <option value="">Select Branch</option>
-                      <option>Kampala Road Branch</option>
-                      <option>Parliament Avenue</option>
-                      <option>Lugogo Mall</option>
-                      <option>Entebbe Branch</option>
+                      {branches.map((branch) => (
+                        <option key={branch}>{branch}</option>
+                      ))}
                     </select>
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Requested Amount (USD)</label>
-                    <input type="number" required placeholder="e.g. 15000" className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent" />
+                    <input name="amount" type="number" required placeholder="e.g. 15000" className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent" />
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Tenure (Months)</label>
-                    <input type="number" required placeholder="e.g. 24" className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent" />
+                    <input name="tenure" type="number" required placeholder="e.g. 24" className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent" />
                   </div>
                 </div>
               </section>
@@ -70,7 +188,7 @@ export default function ApplyPage() {
                 <div className="grid grid-cols-1 gap-y-6 gap-x-6 sm:grid-cols-3">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Title</label>
-                    <select required className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent">
+                    <select name="title" required className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent">
                       <option>Mr.</option>
                       <option>Mrs.</option>
                       <option>Ms.</option>
@@ -79,20 +197,20 @@ export default function ApplyPage() {
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">First Name</label>
-                    <input type="text" required className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent" />
+                    <input name="firstName" type="text" required className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent" />
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Last Name (Surname)</label>
-                    <input type="text" required className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent" />
+                    <input name="lastName" type="text" required className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent" />
                   </div>
                   
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Date of Birth</label>
-                    <input type="date" required className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent" />
+                    <input name="dateOfBirth" type="date" required className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent" />
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Gender</label>
-                    <select required className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent">
+                    <select name="gender" required className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent">
                       <option value="">Select</option>
                       <option>Male</option>
                       <option>Female</option>
@@ -100,7 +218,7 @@ export default function ApplyPage() {
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Marital Status</label>
-                    <select required className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent">
+                    <select name="maritalStatus" required className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent">
                       <option value="">Select</option>
                       <option>Single</option>
                       <option>Married</option>
@@ -111,7 +229,7 @@ export default function ApplyPage() {
 
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Identification Type</label>
-                    <select required className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent">
+                    <select name="identificationType" required className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent">
                       <option>National ID</option>
                       <option>Passport</option>
                       <option>Driving License</option>
@@ -119,7 +237,26 @@ export default function ApplyPage() {
                   </div>
                   <div className="sm:col-span-2">
                     <label className="block text-sm font-semibold text-gray-700 mb-1">ID Number</label>
-                    <input type="text" required className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent" />
+                    <input name="identificationNumber" type="text" required className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent" />
+                  </div>
+                  <div className="sm:col-span-2">
+                    <label htmlFor="credit-identifier" className="mb-1 block text-sm font-semibold text-gray-700">
+                      Social Security Number / BVN <span className="font-normal text-gray-400">(Optional)</span>
+                    </label>
+                    <input
+                      id="credit-identifier"
+                      name="credit-identifier"
+                      type="password"
+                      inputMode="numeric"
+                      autoComplete="off"
+                      maxLength={14}
+                      placeholder="Enter your SSN or BVN"
+                      onBlur={(event) => event.currentTarget.blur()}
+                      className="block w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-[#00a1e0]"
+                    />
+                    <p className="mt-1.5 text-xs text-gray-500">
+                      Optional. Used only to help confirm your credit history. Your entry stays hidden while typing.
+                    </p>
                   </div>
                 </div>
               </section>
@@ -130,15 +267,15 @@ export default function ApplyPage() {
                 <div className="grid grid-cols-1 gap-y-6 gap-x-6 sm:grid-cols-2">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Mobile Number</label>
-                    <input type="tel" required placeholder="Enter your mobile number" className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent" />
+                    <input name="mobile" type="tel" required placeholder="Enter your mobile number" className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent" />
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Email Address</label>
-                    <input type="email" required className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent" />
+                    <input name="email" type="email" required className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent" />
                   </div>
                   <div className="sm:col-span-2">
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Physical Residential Address</label>
-                    <textarea required rows={2} className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent"></textarea>
+                    <textarea name="address" required rows={2} className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent"></textarea>
                   </div>
                 </div>
               </section>
@@ -149,7 +286,7 @@ export default function ApplyPage() {
                 <div className="grid grid-cols-1 gap-y-6 gap-x-6 sm:grid-cols-2">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Employment Status</label>
-                    <select required className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent">
+                    <select name="employmentStatus" required className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent">
                       <option value="">Select</option>
                       <option>Salaried</option>
                       <option>Self-Employed / Business</option>
@@ -158,15 +295,15 @@ export default function ApplyPage() {
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Employer / Business Name</label>
-                    <input type="text" required className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent" />
+                    <input name="employer" type="text" required className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent" />
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Job Title</label>
-                    <input type="text" required className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent" />
+                    <input name="jobTitle" type="text" required className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent" />
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Net Monthly Income (USD)</label>
-                    <input type="number" required className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent" />
+                    <input name="income" type="number" required className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent" />
                   </div>
                 </div>
               </section>
@@ -182,7 +319,7 @@ export default function ApplyPage() {
                     <UploadCloud className="w-8 h-8 text-[#00a1e0] mb-2" />
                     <p className="text-sm font-semibold text-gray-700">Copy of Valid ID</p>
                     <p className="text-xs text-gray-500 mb-3">National ID or Passport</p>
-                    <input type="file" className="text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#004b87] file:text-white hover:file:bg-[#003865] cursor-pointer w-full" />
+                    <input name="idDocument" type="file" className="text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#004b87] file:text-white hover:file:bg-[#003865] cursor-pointer w-full" />
                   </div>
 
                   {/* Payslips Upload */}
@@ -190,7 +327,7 @@ export default function ApplyPage() {
                     <UploadCloud className="w-8 h-8 text-[#00a1e0] mb-2" />
                     <p className="text-sm font-semibold text-gray-700">Latest Payslips</p>
                     <p className="text-xs text-gray-500 mb-3">Last 3 months</p>
-                    <input type="file" multiple className="text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#004b87] file:text-white hover:file:bg-[#003865] cursor-pointer w-full" />
+                    <input name="payslips" type="file" multiple className="text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#004b87] file:text-white hover:file:bg-[#003865] cursor-pointer w-full" />
                   </div>
                   
                   {/* Employer Letter */}
@@ -198,7 +335,7 @@ export default function ApplyPage() {
                     <UploadCloud className="w-8 h-8 text-[#00a1e0] mb-2" />
                     <p className="text-sm font-semibold text-gray-700">Letter of Undertaking from Employer</p>
                     <p className="text-xs text-gray-500 mb-3">Must be signed and stamped</p>
-                    <input type="file" className="text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#004b87] file:text-white hover:file:bg-[#003865] cursor-pointer max-w-sm mx-auto" />
+                    <input name="employerLetter" type="file" className="text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#004b87] file:text-white hover:file:bg-[#003865] cursor-pointer max-w-sm mx-auto" />
                   </div>
 
                 </div>
@@ -211,15 +348,15 @@ export default function ApplyPage() {
                 <div className="grid grid-cols-1 gap-y-6 gap-x-6 sm:grid-cols-2">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Bank Name</label>
-                    <input type="text" required placeholder="e.g. Standard Chartered Bank" className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent" />
+                    <input name="bankName" type="text" required placeholder="e.g. Standard Chartered Bank" className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent" />
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Account Number</label>
-                    <input type="text" required className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent" />
+                    <input name="accountNumber" type="text" required className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent" />
                   </div>
                   <div className="sm:col-span-2">
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Account Name</label>
-                    <input type="text" required className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent" />
+                    <input name="accountName" type="text" required className="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#00a1e0] focus:border-transparent" />
                   </div>
                 </div>
               </section>
@@ -227,7 +364,7 @@ export default function ApplyPage() {
               {/* Declarations */}
               <div className="bg-gray-100 p-6 rounded-lg mt-8">
                 <div className="flex items-start">
-                  <input type="checkbox" required className="mt-1 w-5 h-5 text-[#004b87] border-gray-300 rounded focus:ring-[#00a1e0]" />
+                  <input name="consent" type="checkbox" required className="mt-1 w-5 h-5 text-[#004b87] border-gray-300 rounded focus:ring-[#00a1e0]" />
                   <div className="ml-3 text-sm text-gray-600">
                     <p className="font-semibold text-gray-800 mb-1">Declaration and Consent</p>
                     <p>
@@ -244,11 +381,17 @@ export default function ApplyPage() {
                 </div>
                 <button
                   type="submit"
+                  disabled={isSubmitting}
                   className="bg-[#004b87] text-white px-10 py-4 rounded-xl font-bold shadow-xl hover:bg-[#003865] hover:scale-105 transition-all duration-200 text-lg"
                 >
-                  Submit Application
+                  {isSubmitting ? "Sending Application..." : "Submit Application"}
                 </button>
               </div>
+              {submitError && (
+                <p role="alert" className="text-right text-sm font-medium text-red-600">
+                  {submitError}
+                </p>
+              )}
             </form>
           </div>
         </div>

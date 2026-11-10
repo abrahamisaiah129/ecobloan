@@ -9,29 +9,29 @@ interface ProductCardProps {
 
 export default function ProductCard({ title, description, Icon, features }: ProductCardProps) {
   return (
-    <div className="bg-white rounded-xl shadow-lg border border-gray-100 hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col h-full group cursor-pointer hover:border-[#00a1e0]">
-      <div className="p-8 flex-grow">
-        <div className="w-14 h-14 bg-blue-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-[#004b87] transition-colors duration-300">
-          <Icon className="w-8 h-8 text-[#004b87] group-hover:text-white transition-colors duration-300" />
+    <div className="group flex h-full cursor-pointer flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-[#b8cddd] hover:shadow-xl hover:shadow-slate-200/70">
+      <div className="flex-grow p-7">
+        <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-[#eaf2f8] transition-colors duration-300 group-hover:bg-[#0b4b82]">
+          <Icon className="h-6 w-6 text-[#0b4b82] transition-colors duration-300 group-hover:text-white" />
         </div>
-        <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-[#004b87] transition-colors">
+        <h3 className="mb-3 text-xl font-bold text-[#10233f] transition-colors group-hover:text-[#0b4b82]">
           {title}
         </h3>
-        <p className="text-gray-600 mb-6">
+        <p className="mb-6 text-sm leading-6 text-slate-500">
           {description}
         </p>
         
-        <ul className="space-y-3 mb-8">
+        <ul className="mb-8 space-y-3">
           {features.map((feature, idx) => (
-            <li key={idx} className="flex items-start text-sm text-gray-600">
-              <div className="w-1.5 h-1.5 rounded-full bg-[#00a1e0] mt-2 mr-2 flex-shrink-0" />
+            <li key={idx} className="flex items-start text-sm leading-5 text-slate-500">
+              <div className="mr-2 mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-[#d49a14]" />
               <span>{feature}</span>
             </li>
           ))}
         </ul>
       </div>
       
-      <div className="p-6 bg-gray-50 border-t border-gray-100 flex items-center text-[#004b87] font-semibold group-hover:text-[#00a1e0] transition-colors">
+      <div className="flex items-center border-t border-slate-100 bg-slate-50 px-7 py-4 text-sm font-semibold text-[#0b4b82] transition-colors group-hover:text-[#d48f00]">
         Learn More <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
       </div>
     </div>

@@ -7,22 +7,23 @@ import { Wallet, Car, Home, CreditCard, CheckCircle2 } from "lucide-react";
 
 export default function Page() {
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+    <div className="flex min-h-screen flex-col bg-[#f7f9fc]">
       <Header />
       
       <main className="flex-grow">
         <HeroSection />
 
         {/* Loan Products Section */}
-        <section id="products" className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">Our Loan Products</h2>
-            <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+        <section id="products" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+          <div className="mb-12 text-center">
+            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-[#d48f00]">Built around your needs</p>
+            <h2 className="text-3xl font-bold tracking-tight text-[#10233f] sm:text-4xl">Choose the right way forward</h2>
+            <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-slate-500">
               Tailored financial solutions designed to meet your specific needs with competitive rates and flexible terms.
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
             <ProductCard 
               title="Personal Loan" 
               description="Unsecured loan for your diverse personal needs."
@@ -51,14 +52,14 @@ export default function Page() {
         </section>
 
         {/* Benefits Section */}
-        <section id="benefits" className="py-20 bg-white">
+        <section id="benefits" className="bg-white py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
               <div>
-                <h2 className="text-3xl font-extrabold text-gray-900 mb-6">
+                <h2 className="mb-6 text-3xl font-bold tracking-tight text-[#10233f]">
                   Why Choose <span className="text-[#003366]">Ecobloan</span>?
                 </h2>
-                <p className="text-lg text-gray-600 mb-8">
+                <p className="mb-8 text-base leading-7 text-slate-500">
                   We believe in banking that works for you. Our products are designed with transparency, speed, and your financial well-being in mind.
                 </p>
                 <ul className="space-y-6">
