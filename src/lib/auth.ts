@@ -87,7 +87,7 @@ export function getCustomerProfile(username: string): CustomerProfile {
     return {
       kind: "inheritance_transfer",
       name: "Olga Luik",
-      image:"olga.png",
+      // image:"olga.png",
       organization: "Inheritance beneficiary",
       description: "Inheritance transfer",
       address: "Tartu mnt 2,1015  Tallinn, Estonia",
@@ -106,7 +106,7 @@ export function getCustomerProfile(username: string): CustomerProfile {
 
   return {
     kind: "loan_applicant",
-    image:"bonga.png",
+    // image:"bonga.png",
     name: getRequiredEnv("ECOBLOAN_CUSTOMER_NAME"),
     organization: getRequiredEnv("ECOBLOAN_CUSTOMER_COMPANY"),
     description: getRequiredEnv("ECOBLOAN_CUSTOMER_BUSINESS"),
