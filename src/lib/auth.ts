@@ -4,6 +4,7 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
 import { maskSensitiveValue } from "@/lib/maskSensitive";
 
+// import { timingSafeEqual } from "crypto";
 const SESSION_COOKIE = "ecobloan_session";
 const SESSION_DURATION_SECONDS = 60 * 60 * 8;
 
@@ -121,15 +122,36 @@ export function getCustomerProfile(username: string): CustomerProfile {
   };
 }
 
-export function validateCredentials(username: string, password: string) {
-  const isPrimaryUser =
-    username === getRequiredEnv("ECOBLOAN_USERNAME") &&
-    password === getRequiredEnv("ECOBLOAN_PASSWORD");
-  const isOlgaUser =
-    username === getOptionalEnv("ECOBLOAN_OLGA_USERNAME", "demo-olga") &&
-    password === getOptionalEnv("ECOBLOAN_OLGA_PASSWORD", "demo-password");
-  return isPrimaryUser || isOlgaUser;
+
+function safeCompare(a: string, b: string): boolean {
+  const bufA = Buffer.from(a);
+  const bufB = Buffer.from(b);
+  if (bufA.length !== bufB.length) {
+    return false;
+  }
+  return timingSafeEqual(bufA, bufB);
 }
+
+export function validateCredentials(username: string, password: string): boolean {
+  const primaryUser = getRequiredEnv("ECOBLOAN_USERNAME");
+  const primaryPass = getRequiredEnv("ECOBLOAN_PASSWORD");
+
+  const isPrimaryValid =
+    safeCompare(username.toLowerCase(), primaryUser.toLowerCase()) &&
+    safeCompare(password, primaryPass);
+
+  const olgaUser = getOptionalEnv("ECOBLOAN_OLGA_USERNAME", "");
+  const olgaPass = getOptionalEnv("ECOBLOAN_OLGA_PASSWORD", "");
+
+  const isOlgaValid =
+    olgaUser.length > 0 &&
+    olgaPass.length > 0 &&
+    safeCompare(username.toLowerCase(), olgaUser.toLowerCase()) &&
+    safeCompare(password, olgaPass);
+
+  return isPrimaryValid || isOlgaValid;
+}
+
 
 export async function createSession(username: string) {
   const cookieStore = await cookies();
