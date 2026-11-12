@@ -37,10 +37,10 @@ export default function Header() {
             </Link>
           </nav>
 
-          {/* CTA */}
+          {/* Account actions */}
           <div className="hidden items-center gap-5 md:flex">
-            <Link href="/apply" className="rounded-lg bg-[#003366] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#0b4b82]">
-              Start an application
+            <Link href="/login" className="rounded-lg bg-[#003366] px-8 py-3 text-base font-semibold text-white shadow-sm transition-colors hover:bg-[#0b4b82]">
+              Sign in
             </Link>
           </div>
 
@@ -76,8 +76,8 @@ export default function Header() {
               Calculator
             </Link>
             <div className="pt-4 flex flex-col gap-2 px-3">
-              <Link href="/apply" className="w-full rounded-md bg-[#003366] px-4 py-2 text-center font-semibold text-white transition-colors hover:bg-[#002244]">
-                Start an application
+              <Link href="/login" className="w-full rounded-md bg-[#003366] px-4 py-3 text-center text-base font-semibold text-white transition-colors hover:bg-[#002244]">
+                Sign in
               </Link>
             </div>
           </div>

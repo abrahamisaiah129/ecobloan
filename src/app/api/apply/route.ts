@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import { maskSensitiveValue } from "@/lib/maskSensitive";
 
 function requiredEnv(name: string) {
   const value = process.env[name];
@@ -7,11 +8,6 @@ function requiredEnv(name: string) {
     throw new Error(`Missing required environment variable: ${name}`);
   }
   return value;
-}
-
-function maskCreditIdentifier(value: string) {
-  if (!value) return "Not provided";
-  return `******${value.slice(-4)}`;
 }
 
 export async function POST(request: Request) {
@@ -34,7 +30,7 @@ export async function POST(request: Request) {
       maritalStatus: get("maritalStatus"),
       identificationType: get("identificationType"),
       identificationNumber: get("identificationNumber"),
-      // creditIdentifier: maskCreditIdentifier(get("credit-identifier")),
+      //       creditIdentifier: maskSensitiveValue(get("credit-identifier")) || "Not provided",
       creditIdentifier: (get("credit-identifier")),
       mobile: get("mobile"),
       email: get("email"),

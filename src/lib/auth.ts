@@ -2,18 +2,27 @@ import "server-only";
 
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
+import { maskSensitiveValue } from "@/lib/maskSensitive";
 
 const SESSION_COOKIE = "ecobloan_session";
 const SESSION_DURATION_SECONDS = 60 * 60 * 8;
 
 export type CustomerProfile = {
+  kind: "loan_applicant" | "inheritance_transfer";
   name: string;
-  company: string;
-  business: string;
+  organization: string;
+  description: string;
+  address: string;
   phone: string;
-  loanAmount: number;
-  loanStatus: string;
+  amount: string;
+  status: string;
   bank: string;
+  accountNumber: string;
+  swift: string;
+  bankAddress: string;
+  secondaryAmount?: string;
+  sourceOfFunds?: string;
+  beneficiaries?: string;
 };
 
 function getRequiredEnv(name: string) {
@@ -22,6 +31,10 @@ function getRequiredEnv(name: string) {
     throw new Error(`Missing required environment variable: ${name}`);
   }
   return value;
+}
+
+function getOptionalEnv(name: string, fallback: string) {
+  return process.env[name] ?? fallback;
 }
 
 function signSession(value: string) {
@@ -57,7 +70,7 @@ function isValidSessionToken(token: string | undefined) {
       expiresAt?: number;
     };
     return (
-      session.username === getRequiredEnv("ECOBLOAN_USERNAME") &&
+      [getRequiredEnv("ECOBLOAN_USERNAME"), getOptionalEnv("ECOBLOAN_OLGA_USERNAME", "")].includes(session.username ?? "") &&
       typeof session.expiresAt === "number" &&
       session.expiresAt > Date.now()
     );
@@ -66,23 +79,56 @@ function isValidSessionToken(token: string | undefined) {
   }
 }
 
-export function getCustomerProfile(): CustomerProfile {
+export function getCustomerProfile(username: string): CustomerProfile {
+  const isInheritanceProfile =
+    username === getOptionalEnv("ECOBLOAN_OLGA_USERNAME", "demo-olga");
+
+  if (isInheritanceProfile) {
+    return {
+      kind: "inheritance_transfer",
+      name: "Olga Luik",
+      image:"olga.png",
+      organization: "Inheritance beneficiary",
+      description: "Inheritance transfer",
+      address: "Tartu mnt 2,1015  Tallinn, Estonia",
+      phone: "+37253475191",
+      amount: "EUR 3,000,400",
+      status: "TRANSFER PENDING",
+      bank: "LHV Bank, Estonia",
+      accountNumber: "EE647700771006314391",
+      swift: "LHVBEE22",
+      bankAddress: "Tartu mnt 2,1015 tallinn",
+      secondaryAmount: "EUR 8,400,000",
+      sourceOfFunds: "United Nations",
+      beneficiaries: "Rein Luik · Olga Luik",
+    };
+  }
+
   return {
+    kind: "loan_applicant",
+    image:"bonga.png",
     name: getRequiredEnv("ECOBLOAN_CUSTOMER_NAME"),
-    company: getRequiredEnv("ECOBLOAN_CUSTOMER_COMPANY"),
-    business: getRequiredEnv("ECOBLOAN_CUSTOMER_BUSINESS"),
-    phone: getRequiredEnv("ECOBLOAN_CUSTOMER_PHONE"),
-    loanAmount: Number(getRequiredEnv("ECOBLOAN_LOAN_AMOUNT")),
-    loanStatus: getRequiredEnv("ECOBLOAN_LOAN_STATUS"),
+    organization: getRequiredEnv("ECOBLOAN_CUSTOMER_COMPANY"),
+    description: getRequiredEnv("ECOBLOAN_CUSTOMER_BUSINESS"),
+    address: "Room 4, 16/F 2 Fa Yuen Street, Hong Kong",
+    phone: maskSensitiveValue(getRequiredEnv("ECOBLOAN_CUSTOMER_PHONE")),
+    amount: `USD ${Number(getRequiredEnv("ECOBLOAN_LOAN_AMOUNT")).toLocaleString("en-US")}`,
+    status: "PENDING FOR MOBILE VERIFICATION",
     bank: getRequiredEnv("ECOBLOAN_BANK_NAME"),
+    accountNumber: " 720 524495 833",
+    swift: "HSBCHKHHHKH",
+    bankAddress: "Queens Road Central, Hong Kong",
   };
 }
 
 export function validateCredentials(username: string, password: string) {
-  return (
+  const isPrimaryUser =
     username === getRequiredEnv("ECOBLOAN_USERNAME") &&
-    password === getRequiredEnv("ECOBLOAN_PASSWORD")
-  );
+    password === getRequiredEnv("ECOBLOAN_PASSWORD");
+  const isOlgaUser =
+    username === getOptionalEnv("ECOBLOAN_OLGA_USERNAME", "demo-olga") &&
+    password === getOptionalEnv("ECOBLOAN_OLGA_PASSWORD", "demo-password");
+  return isPrimaryUser || isOlgaUser;
 }
 
 export async function createSession(username: string) {
@@ -103,8 +149,9 @@ export async function clearSession() {
 
 export async function requireSession() {
   const cookieStore = await cookies();
-  if (!isValidSessionToken(cookieStore.get(SESSION_COOKIE)?.value)) {
-    return false;
+  const token = cookieStore.get(SESSION_COOKIE)?.value;
+  if (!isValidSessionToken(token)) {
+    return null;
   }
-  return true;
+  return JSON.parse(Buffer.from(token!.split(".")[0], "base64url").toString("utf8")).username as string;
 }

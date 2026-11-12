@@ -3,6 +3,7 @@ import HeroSection from "@/components/HeroSection";
 import ProductCard from "@/components/ProductCard";
 import LoanCalculator from "@/components/LoanCalculator";
 import Footer from "@/components/Footer";
+import Link from "next/link";
 import { Wallet, Car, Home, CreditCard, CheckCircle2 } from "lucide-react";
 
 export default function Page() {
@@ -13,11 +14,29 @@ export default function Page() {
       <main className="flex-grow">
         <HeroSection />
 
+        <section className="border-b border-slate-200 bg-white">
+          <div className="mx-auto grid max-w-7xl grid-cols-1 divide-y divide-slate-200 px-4 sm:px-6 md:grid-cols-3 md:divide-x md:divide-y-0 lg:px-8">
+            {[
+              ["01", "Choose a product", "Find a loan option that fits what you need today."],
+              ["02", "Check your estimate", "Use the calculator to understand your expected repayments."],
+              ["03", "Apply with confidence", "Send your details securely and follow the review process."],
+            ].map(([number, title, description]) => (
+              <div key={number} className="flex gap-4 py-6 md:px-7 first:pl-0 last:pr-0">
+                <span className="text-sm font-bold text-[#d48f00]">{number}</span>
+                <div>
+                  <h2 className="font-semibold text-[#10233f]">{title}</h2>
+                  <p className="mt-1 text-sm leading-6 text-slate-500">{description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* Loan Products Section */}
         <section id="products" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
           <div className="mb-12 text-center">
-            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-[#d48f00]">Built around your needs</p>
-            <h2 className="text-3xl font-bold tracking-tight text-[#10233f] sm:text-4xl">Choose the right way forward</h2>
+            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-[#d48f00]">Loan options for every stage</p>
+            <h2 className="text-3xl font-bold tracking-tight text-[#10233f] sm:text-4xl">Find the right way forward</h2>
             <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-slate-500">
               Tailored financial solutions designed to meet your specific needs with competitive rates and flexible terms.
             </p>
@@ -48,6 +67,24 @@ export default function Page() {
               Icon={Home}
               features={["Long-term financing", "Flexible equity contributions", "Expert property advice"]}
             />
+          </div>
+        </section>
+
+        <section className="bg-[#eef4f8] py-16">
+          <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 px-4 sm:px-6 md:flex-row md:items-center lg:px-8">
+            <div className="max-w-2xl">
+              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-[#d48f00]">Ready to take the next step?</p>
+              <h2 className="text-3xl font-bold tracking-tight text-[#10233f]">Start your application in a few simple steps.</h2>
+              <p className="mt-3 leading-7 text-slate-600">Have your basic details ready. You can review your information before sending it to our team.</p>
+            </div>
+            <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+              <Link href="/apply" className="rounded-lg bg-[#003366] px-6 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-[#0b4b82]">
+                Start an application
+              </Link>
+              <Link href="#calculator" className="rounded-lg border border-[#b8cddd] bg-white px-6 py-3 text-center text-sm font-semibold text-[#003366] transition-colors hover:border-[#003366]">
+                Check repayments
+              </Link>
+            </div>
           </div>
         </section>
 

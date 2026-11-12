@@ -28,5 +28,9 @@ export async function login(
     return { error: "Sign-in is temporarily unavailable. Please contact support." };
   }
 
-  redirect("/dashboard");
+  redirect(
+    username === (process.env.ECOBLOAN_OLGA_USERNAME ?? "demo-olga")
+      ? "/dashboard/inheritance"
+      : "/dashboard/loan",
+  );
 }
