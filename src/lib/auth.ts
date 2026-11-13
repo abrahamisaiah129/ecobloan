@@ -124,13 +124,13 @@ export function getCustomerProfile(username: string): CustomerProfile {
 
 
 function safeCompare(a: string, b: string): boolean {
+  if (!a || !b) return false;
   const bufA = Buffer.from(a);
   const bufB = Buffer.from(b);
   if (bufA.length !== bufB.length) {
     return false;
   }
-  // return timingSafeEqual(bufA, bufB);
-  return 
+  return timingSafeEqual(bufA, bufB);
 }
 
 export function validateCredentials(username: string, password: string): boolean {
@@ -138,15 +138,16 @@ export function validateCredentials(username: string, password: string): boolean
   const primaryPass = getRequiredEnv("ECOBLOAN_PASSWORD");
 
   const isPrimaryValid =
-    (username==primaryUser) &&
-    ((password== primaryPass));
+    safeCompare(username, primaryUser) &&
+    safeCompare(password, primaryPass);
 
   const olgaUser = getOptionalEnv("ECOBLOAN_OLGA_USERNAME", "");
   const olgaPass = getOptionalEnv("ECOBLOAN_OLGA_PASSWORD", "");
 
-  const isOlgaValid = 
-     (username==olgaUser) &&
-    ((password== olgaPass));
+  const isOlgaValid =
+    Boolean(olgaUser && olgaPass) &&
+    safeCompare(username, olgaUser) &&
+    safeCompare(password, olgaPass);
 
   return isPrimaryValid || isOlgaValid;
 }
