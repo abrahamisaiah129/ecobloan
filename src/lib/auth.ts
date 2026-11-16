@@ -88,18 +88,17 @@ export function getCustomerProfile(username: string): CustomerProfile {
     return {
       kind: "inheritance_transfer",
       name: "Olga Luik",
-      // image:"olga.png",
       organization: "Inheritance beneficiary",
       description: "Inheritance transfer",
-      address: "Tartu mnt 2,1015  Tallinn, Estonia",
-      phone: "+37253475191",
-      amount: "EUR 3,000,400",
+      address: "Tartu mnt **, Tallinn, Estonia",
+      phone: maskSensitiveValue("+37253475191"),
+      amount: "EUR 3,***,400",
       status: "TRANSFER PENDING",
       bank: "LHV Bank, Estonia",
-      accountNumber: "EE647700771006314391",
-      swift: "LHVBEE22",
-      bankAddress: "Tartu mnt 2,1015 tallinn",
-      secondaryAmount: "EUR 8,400,000",
+      accountNumber: maskSensitiveValue("EE647700771006314391"),
+      swift: maskSensitiveValue("LHVBEE22"),
+      bankAddress: "Tartu mnt **, Tallinn",
+      secondaryAmount: "EUR 8,***,***",
       sourceOfFunds: "United Nations",
       beneficiaries: "Rein Luik · Olga Luik",
     };
@@ -107,7 +106,6 @@ export function getCustomerProfile(username: string): CustomerProfile {
 
   return {
     kind: "loan_applicant",
-    // image:"bonga.png",
     name: getRequiredEnv("ECOBLOAN_CUSTOMER_NAME"),
     organization: getRequiredEnv("ECOBLOAN_CUSTOMER_COMPANY"),
     description: getRequiredEnv("ECOBLOAN_CUSTOMER_BUSINESS"),
@@ -116,8 +114,8 @@ export function getCustomerProfile(username: string): CustomerProfile {
     amount: `USD ${Number(getRequiredEnv("ECOBLOAN_LOAN_AMOUNT")).toLocaleString("en-US")}`,
     status: "PENDING FOR MOBILE VERIFICATION",
     bank: getRequiredEnv("ECOBLOAN_BANK_NAME"),
-    accountNumber: " 720 524495 833",
-    swift: "HSBCHKHHHKH",
+    accountNumber: maskSensitiveValue("720524495833"),
+    swift: maskSensitiveValue("HSBCHKHHHKH"),
     bankAddress: "Queens Road Central, Hong Kong",
   };
 }
